@@ -47,10 +47,10 @@ if st.button("Predict"):
     }
     input_df = pd.DataFrame([raw_input])
 
-    for column in expected_columns:
+    for column in columns:
         if column not in input_df.columns:
             input_df[column] = 0
-    input_df = input_df[expected_columns]
+    input_df = input_df[columns]
 
     scaled_input = scaler.transform(input_df)
     prediction = model.predict(scaled_input)[0]
