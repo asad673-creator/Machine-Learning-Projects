@@ -10,8 +10,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, "logRegression.pkl")
 
 model = joblib.load(model_path)
-scaler = joblib.load("scaler.pkl")
-expected_columns = joblib.load("columns.pkl")
+scaler_path = os.path.join(BASE_DIR, "scaler.pkl")
+scaler = joblib.load(scaler_path)
+columns_path = os.path.join(BASE_DIR, "columns.pkl")
+columns = joblib.load(columns_path)
 
 
 st.title("Heart Disease Detection")
