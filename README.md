@@ -38,6 +38,7 @@ A Machine Learning project that predicts whether a person is likely to have hear
 
 A Natural Language Processing project that classifies SMS messages as **Spam** or **Ham (Not Spam)**.
 Deployment : https://sms-spam-detection-byasad.streamlit.app/
+
 **Techniques & Concepts:**
 
 * Text preprocessing
