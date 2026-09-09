@@ -9,3 +9,4 @@ openpyxl
 streamlit
 scikit-learn==1.5.2
 joblib
+xgboost
