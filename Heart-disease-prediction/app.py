@@ -5,7 +5,7 @@ import joblib
 import os
 import joblib
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "logRegression.pkl")
+model_path = os.path.join(BASE_DIR, "best_model.pkl")
 model = joblib.load(model_path)
 scaler_path = os.path.join(BASE_DIR, "scaler.pkl")
 scaler = joblib.load(scaler_path)
@@ -48,4 +48,4 @@ if st.button("Predict"):
     if prediction == 1:
         st.error("High risk of Heart Disease")
     else:
-        st.success("Low risk of Heart Disease"){simpler code like this}
+        st.success("Low risk of Heart Disease")
