@@ -1,17 +1,53 @@
+import numpy as np
+import streamlit as st
+import pandas as pd
+import joblib
 
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-  <head>
-    <title>503 Backend.max_conn reached</title>
-  </head>
-  <body>
-    <h1>Error 503 Backend.max_conn reached</h1>
-    <p>Backend.max_conn reached</p>
-    <h3>Error 54113</h3>
-    <p>Details: cache-fjr990029-FJR 1788975212 591450090</p>
-    <hr>
-    <p>Varnish cache server</p>
-  </body>
-</html>
+model = joblib.load("logRegression.pkl")
+scaler = joblib.load("scaler.pkl")
+expected_columns = joblib.load("columns.pkl")
+
+
+st.title("Heart Disease Detection")
+st.markdown("Provide the following details")
+
+age = st.slider("Age", 18, 100, 40)
+sex = st.selectbox("SEX", ['M', 'F'])
+chest_pain = st.selectbox("Chest Pain Type", ["ATA", "NAP", "TA", "ASY"])
+RestingBP = st.number_input("Resting Blood Pressure (mm Hg)", 80, 200, 120)
+cholesterol = st.number_input("Cholesterol (mg/dL)", 100, 600, 200)
+FastingBS = st.selectbox("Fasting Blood Sugar >120 mg/dL", [0, 1])
+RestingECG = st.selectbox("Resting ECG", ["Normal", "ST", "LVH"])
+MaxHR = st.slider("MAX Heart Rate", 60, 220, 150)
+ExerciseAngina = st.selectbox("Exercise-Induced Angina", ["Y", "N"])
+OldPeak = st.slider("OldPeak(ST Depression)", 0.0, 6.0, 1.0)
+ST_Slope = st.selectbox("ST Slope", ["Up", "Flat", "Down"])
+
+if st.button("Predict"):
+    raw_input = {
+        "Age": age,
+        "RestingBP": RestingBP,
+        "Cholesterol": cholesterol,
+        "FastingBS": FastingBS,
+        "MaxHR": MaxHR,
+        "Oldpeak": OldPeak,
+        "Sex_" + sex: 1,
+        "ChestPainType_" + chest_pain: 1,
+        "RestingECG_" + RestingECG: 1,
+        "ExerciseAngina_" + ExerciseAngina: 1,
+        "ST_Slope_" + ST_Slope: 1
+    }
+    input_df = pd.DataFrame([raw_input])
+
+    for column in expected_columns:
+        if column not in input_df.columns:
+            input_df[column] = 0
+    input_df = input_df[expected_columns]
+
+    scaled_input = scaler.transform(input_df)
+    prediction = model.predict(scaled_input)[0]
+
+    if prediction == 1:
+        st.error("High risk of Heart Disease")
+    else:
+        st.success("Low risk of Heart Disease")
